@@ -1,0 +1,32 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<mat-toolbar color="primary">
+  <mat-toolbar-row style="height: 130px;">
+    <img src="../assets/logo.png" width="100px" height="108px" />
+    <span style="padding-left: 10%"> {{ title }}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-content>
+    <mat-tab-group class="demo-tab-group">
+      <mat-tab label="Devices">
+        <mat-card *ngFor="let device of devices">
+          <mat-card-content>
+            <p>{{device.name}}</p>
+            <p>{{device.root}}</p>
+            <br>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Message" value="asdas">
+            </mat-form-field>
+            <mat-list role="list">
+              <mat-list-item *ngFor="let message of device.messages" role="listitem">
+                {{message.data}}
+                {{message.dateTime}}
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
