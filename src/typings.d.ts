@@ -8,4 +8,5 @@ declare module "*.json" {
   export default value;
 }
 
-//declare module 'mam.client.js';
+declare module 'mam.client.js';
+declare module 'iota.lib.js';
