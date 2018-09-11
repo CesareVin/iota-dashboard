@@ -6,6 +6,10 @@ This project represent the iota-dashboard that established a communication chann
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
 It require `node` and `ng`.
+Install `node` from your official repository (see instruction on [NodeJS](https://nodejs.org/en/download/package-manager/) Website).
+Install `ng` globally, the tested version as reported above is 1.6.5, so `npm install -g @angular/cli@1.6.5`
+IOTA mam that's a requirment for the project doesn't have an npm package, so the dependency need to be downloaded manually.
+After `npm install` move to `node_modules` folder and type `git clone https://github.com/iotaledger/mam.client.js.git` to download the mam client from official source.
 
 ## Development server
 
