@@ -15,9 +15,6 @@
             <p>{{device.name}}</p>
             <p>{{device.root}}</p>
             <br>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Message" value="asdas">
-            </mat-form-field>
             <mat-list role="list">
               <mat-list-item *ngFor="let message of device.messages" role="listitem">
                 {{message.data}}
