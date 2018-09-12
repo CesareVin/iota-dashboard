@@ -30,7 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this._deviceConnectionHandle = this.dataService
       .getDevices()
       .subscribe(async (RemoteDevices: any) => {
-        const internalDevices = [];
         for (let k = 0; k < RemoteDevices.length; k++) {
           const device = RemoteDevices[k];
           let exist = false;
@@ -41,14 +40,9 @@ export class AppComponent implements OnInit, OnDestroy {
           }
           if (!exist) {
             device['messages'] = [];
-            internalDevices.push(device);
+            this.devices.push(device);
             this.fetchData(device.root, device);
           }
-          // this.devices.push(device);
-        }
-        if (internalDevices.length > 0) {
-          internalDevices.concat(this.devices);
-          this.devices = internalDevices;
         }
       });
 
@@ -60,23 +54,18 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private fetchData = async (root, device) => {
-    const resp = await Mam.fetch(root, 'public', null);
+    console.log('Fetching tangle for ' + device.root);
+    const resp = await Mam.fetch(root, 'public', null, data => {
+      console.log(JSON.parse(this.iota.utils.fromTrytes(data)));
+      const decryptedMessage = JSON.parse(this.iota.utils.fromTrytes(data));
+      device.messages.push(decryptedMessage);
+    });
     if (resp !== undefined) {
-      if (resp.messages.length > 0) {
-        const decryptedMessage = [];
-        for (let i = 0; i < resp.messages.length; i++) {
-          decryptedMessage.push(
-            JSON.parse(this.iota.utils.fromTrytes(resp.messages[i]))
-          );
-          console.log(decryptedMessage[i]);
-        }
-        const newMessages = device.messages.concat(decryptedMessage);
-        // newMessages.push(decryptedMessage);
-        device.messages = newMessages;
-      }
+      console.log('Next root ' + resp.nextRoot);
       this.fetchData(resp.nextRoot, device);
-    } else { this.fetchData(root, device); }
-
+    } else {
+     this.fetchData(root, device);
+    }
   }
 
   private createSeed() {
@@ -95,5 +84,5 @@ export class AppComponent implements OnInit, OnDestroy {
 
       seed = result.join('');
       return seed;
-    }
+  }
 }
